@@ -32,17 +32,27 @@ def mod_pixels(new_img, pixels, bin_str):
         if x < width - 1: x += 1
         else: x, y = 0, y + 1
 
-
 def encode():
     img = input("Image: ")
     og_img = Image.open(img, "r")
-    message = input("Message to hide: ")
+
+    message = input("Message to hide (start with !file:name to choose a file): ")
+    while not message:
+        message = input("Message to hide (start with !file:name to choose a file): ")
+
     message_bin = ""
-    for char in message:
-        message_bin += "{:08b}".format(ord(char))
+    if message[:6] == "!file:":
+        with open(message[6:], "rb") as file:
+            byte = file.read(1)
+            while byte:
+                message_bin += "{:08b}".format(ord(byte))
+                byte = file.read(1)
+    else:
+        for char in message:
+            message_bin += "{:08b}".format(ord(char))
 
     new_img = og_img.copy()
-    pixels = list(new_img.getdata())
+    pixels = iter(new_img.getdata())
 
     mod_pixels(new_img, pixels, message_bin)
 
