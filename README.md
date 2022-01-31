@@ -11,4 +11,6 @@ Images ending in `mod` are images with hidden messages in them, others are the o
 ## Next on the list
 Expand the script to be able to do more advanced stenography.
 
+Add support for zlib compression.
+
 Maybe add better support for JPG images. 
